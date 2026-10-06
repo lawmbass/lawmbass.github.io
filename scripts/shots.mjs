@@ -20,6 +20,15 @@ async function shoot(name, opts, reduced = false) {
   await page.waitForTimeout(1000)
   await page.evaluate(() => window.scrollTo(0, 0)); await page.waitForTimeout(300)
   await page.screenshot({ path: `${out}/${name}-full.png`, fullPage: true })
+  // section shot: personal projects ("Things I've built")
+  const built = page.locator('#built')
+  if (await built.count()) {
+    // hide the sticky header + skip link so they don't overlap the element capture
+    await page.evaluate(() => document.querySelectorAll('.topbar, .skip').forEach((el) => (el.style.visibility = 'hidden')))
+    await built.screenshot({ path: `${out}/${name}-built.png` })
+    await page.evaluate(() => document.querySelectorAll('.topbar, .skip').forEach((el) => (el.style.visibility = '')))
+    await page.evaluate(() => window.scrollTo(0, 0)); await page.waitForTimeout(300)
+  }
   const hidden = await page.evaluate(() => [...document.querySelectorAll('.will-reveal:not(.is-in)')].length)
   // keyboard focus check
   await page.keyboard.press('Tab')

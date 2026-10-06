@@ -1,8 +1,10 @@
 import { useEffect, useState, type CSSProperties, type PointerEvent } from 'react'
 import { education, experience, profile, projects, skillGroups, training } from './data'
+import PersonalProjects from './PersonalProjects'
 
 const nav = [
   { href: '#work', label: 'Work' },
+  { href: '#built', label: 'Built' },
   { href: '#experience', label: 'Experience' },
   { href: '#skills', label: 'Skills' },
   { href: '#contact', label: 'Contact' },
@@ -183,6 +185,8 @@ export default function App() {
             ))}
           </ol>
         </section>
+
+        <PersonalProjects />
 
         <section id="experience" className="section wrap" aria-labelledby="exp-title">
           <div className="section-head" data-reveal>
