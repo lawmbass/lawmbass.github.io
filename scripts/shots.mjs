@@ -23,6 +23,7 @@ async function shoot(name, opts, reduced = false) {
   const hidden = await page.evaluate(() => [...document.querySelectorAll('.will-reveal:not(.is-in)')].length)
   // keyboard focus check
   await page.keyboard.press('Tab')
+  await page.waitForTimeout(400)
   const f1 = await page.evaluate(() => document.activeElement?.textContent?.trim())
   await page.screenshot({ path: `${out}/${name}-focus-skip.png` })
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)
