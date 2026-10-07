@@ -1,16 +1,28 @@
 import { useEffect, useState, type CSSProperties, type PointerEvent } from 'react'
-import { education, experience, profile, projects, skillGroups, training } from './data'
+import { education, experience, profile, projects, skillGroups, training, work } from './data'
 import PersonalProjects from './PersonalProjects'
 
 const nav = [
-  { href: '#work', label: 'Work' },
-  { href: '#built', label: 'Built' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#work', num: '01', label: 'Work' },
+  { href: '#side-projects', num: '02', label: 'Side projects' },
+  { href: '#experience', num: '03', label: 'Experience' },
+  { href: '#skills', num: '04', label: 'Skills' },
+  { href: '#contact', num: '05', label: 'Contact' },
 ]
 
-/** Scroll-reveal: content is fully visible without JS / with reduced motion. */
+function ResumeLink({ className = 'btn btn-ghost' }: { className?: string }) {
+  return (
+    <a className={className} href={profile.resume} type="application/pdf">
+      Resume (PDF)
+    </a>
+  )
+}
+
+/**
+ * Scroll-reveal: a small upward slide for content that starts below the fold.
+ * Transform only: nothing is ever hidden (no opacity 0), and it is skipped entirely
+ * with reduced motion or without JS.
+ */
 function useReveal() {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -96,7 +108,12 @@ export default function App() {
             <ul>
               {nav.map((n) => (
                 <li key={n.href}>
-                  <a href={n.href}>{n.label}</a>
+                  <a href={n.href}>
+                    <span className="nav-num" aria-hidden="true">
+                      {n.num}
+                    </span>
+                    {n.label}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -107,26 +124,26 @@ export default function App() {
       <main id="main">
         <section className="hero wrap" id="top" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow intro" style={{ '--d': 0 } as CSSProperties}>
-              <span className="pulse" aria-hidden="true" /> {profile.title}
+            <p className="eyebrow">
+              <span className="pulse" aria-hidden="true" /> {profile.eyebrow}
             </p>
-            <h1 id="hero-title" className="intro" style={{ '--d': 1 } as CSSProperties}>
+            <h1 id="hero-title">
               <span className="h1-line">Lawrence</span> <span className="h1-line grad">M. Bass</span>
             </h1>
-            <p className="lede intro" style={{ '--d': 2 } as CSSProperties}>
-              {profile.summary}
-            </p>
-            <div className="cta intro" style={{ '--d': 3 } as CSSProperties}>
+            <p className="hero-tag">{profile.headline}</p>
+            <p className="lede">{profile.summary}</p>
+            <div className="cta">
               <a className="btn btn-primary" href="#work">
-                View projects <span aria-hidden="true">→</span>
+                See my work <span aria-hidden="true">→</span>
               </a>
               <a className="btn btn-ghost" href={`mailto:${profile.email}`}>
                 Email me
               </a>
+              <ResumeLink />
             </div>
           </div>
 
-          <figure className="code-card intro" style={{ '--d': 4 } as CSSProperties} aria-label="Profile summary as a code snippet">
+          <figure className="code-card" aria-label="Profile summary as a code snippet">
             <div className="code-head" aria-hidden="true">
               <span /> <span /> <span />
               <em>lawrence.ts</em>
@@ -151,29 +168,35 @@ export default function App() {
 
         <section id="work" className="section wrap" aria-labelledby="work-title">
           <div className="section-head" data-reveal>
-            <p className="kicker">01 — Selected work</p>
-            <h2 id="work-title">Projects</h2>
-            <p className="section-sub">
-              Client work is described in general terms; no client names, data, or code are shown.
-            </p>
+            <p className="kicker">01 — Work</p>
+            <h2 id="work-title">Client work</h2>
+            <p className="section-sub">{work.intro}</p>
           </div>
-          <ol className="cards" role="list">
+          <ol className="cards work-cards" role="list">
             {projects.map((p, i) => (
-              <li key={p.id} className="card" onPointerMove={glow} data-reveal style={{ '--i': i % 2 } as CSSProperties}>
+              <li
+                key={p.id}
+                className={`card work-${p.size}`}
+                onPointerMove={glow}
+                data-reveal
+                style={{ '--i': i % 3 } as CSSProperties}
+              >
                 <article aria-labelledby={`${p.id}-t`}>
                   <div className="card-top">
                     <span className="card-num" aria-hidden="true">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <p className="card-ctx">{p.context}</p>
+                    {p.context && <p className="card-ctx">{p.context}</p>}
                   </div>
                   <h3 id={`${p.id}-t`}>{p.title}</h3>
                   <p className="card-sum">{p.summary}</p>
-                  <ul className="card-points">
-                    {p.points.map((pt) => (
-                      <li key={pt}>{pt}</li>
-                    ))}
-                  </ul>
+                  {p.points && (
+                    <ul className="card-points">
+                      {p.points.map((pt) => (
+                        <li key={pt}>{pt}</li>
+                      ))}
+                    </ul>
+                  )}
                   {p.note && <p className="card-note">{p.note}</p>}
                   <ul className="tags" aria-label="Technologies">
                     {p.tags.map((t) => (
@@ -190,8 +213,8 @@ export default function App() {
 
         <section id="experience" className="section wrap" aria-labelledby="exp-title">
           <div className="section-head" data-reveal>
-            <p className="kicker">02 — Career</p>
-            <h2 id="exp-title">Experience</h2>
+            <p className="kicker">03 — Experience</p>
+            <h2 id="exp-title">Where I’ve worked</h2>
           </div>
           <div className="exp-grid">
             <ol className="timeline">
@@ -227,8 +250,8 @@ export default function App() {
 
         <section id="skills" className="section wrap" aria-labelledby="skills-title">
           <div className="section-head" data-reveal>
-            <p className="kicker">03 — Toolkit</p>
-            <h2 id="skills-title">Skills</h2>
+            <p className="kicker">04 — Skills</p>
+            <h2 id="skills-title">Toolkit</h2>
           </div>
           <dl className="skills" data-reveal>
             {skillGroups.map((g) => (
@@ -248,21 +271,20 @@ export default function App() {
 
         <section id="contact" className="section wrap" aria-labelledby="contact-title">
           <div className="contact" data-reveal onPointerMove={glow}>
-            <p className="kicker">04 — Contact</p>
+            <p className="kicker">05 — Contact</p>
             <h2 id="contact-title">
-              Let’s build something <span className="grad">great</span>.
+              Hiring for a <span className="grad">senior frontend or full-stack</span> role?
             </h2>
-            <p className="section-sub">
-              Open to Senior frontend and full-stack roles. The best way to reach me is email.
-            </p>
+            <p className="section-sub">Email is the best way to reach me.</p>
             <a className="email-link" href={`mailto:${profile.email}`}>
               {profile.email}
             </a>
             <div className="cta">
               <a className="btn btn-primary" href={`mailto:${profile.email}`}>
-                Send an email <span aria-hidden="true">→</span>
+                Email me <span aria-hidden="true">→</span>
               </a>
               <CopyEmail />
+              <ResumeLink />
             </div>
           </div>
         </section>

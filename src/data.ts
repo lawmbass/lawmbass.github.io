@@ -2,105 +2,101 @@ export const profile = {
   name: 'Lawrence M. Bass',
   title: 'Senior Software Engineer',
   email: 'lawmbass1@gmail.com',
+  eyebrow: 'Open to senior frontend & full-stack roles',
+  headline:
+    'I build the React and TypeScript screens behind hard planning and reporting work, plus the APIs and tests that keep them shipping.',
   summary:
-    'Senior Software Engineer with 11+ years building React/TypeScript web applications and Node APIs. Owns complex reporting and planning UIs end-to-end, modernizes APIs, and hardens CI/test pipelines.',
+    'Senior Software Engineer, 11+ years across React, TypeScript, and Node. I own planning and reporting UIs end to end on a large budget-analysis platform, lead API modernization, and made the Cypress suite reliable enough that releases trust CI.',
+  /** Phone-free PDF of the resume (only the phone number was removed). */
+  resume: './Lawrence_Bass_Resume.pdf',
 }
 
 export type Project = {
   id: string
   title: string
-  context: string
+  /** Shown only where it adds information (once for Booz Allen, once for NRL). */
+  context?: string
   summary: string
-  points: string[]
+  points?: string[]
   tags: string[]
   note?: string
+  size: 'featured' | 'mid' | 'small'
+}
+
+export const work = {
+  intro:
+    'Defense work at Booz Allen Hamilton and, before that, the Naval Research Laboratory. Described in general terms; no client names, data, or code.',
 }
 
 export const projects: Project[] = [
   {
     id: 'planning-platform',
-    title: 'Readiness planning & budget analysis platform',
-    context: 'Defense client · Booz Allen Hamilton',
+    size: 'featured',
+    title: 'Planning and reporting UIs, end to end',
+    context: 'Booz Allen Hamilton · 2019–present',
     summary:
-      'A React/TypeScript platform for defense readiness planning and budget analysis. I own major planning and reporting UIs end-to-end.',
+      'I own the major planning and reporting screens on a React/TypeScript platform for defense readiness and budget analysis.',
     points: [
-      'Shipped a portfolio-analysis MVP',
-      'Built shared charting: combo charts, multi-series toggles, and before/after optimization views',
-      'Context-aware screens that hide irrelevant options based on user selections',
+      'Shipped a new analysis MVP',
+      'Built shared charting: combo charts, multi-series toggles, before/after optimization views',
+      'Built screens that hide options that don’t apply to what the user picked',
     ],
     tags: ['React', 'TypeScript'],
   },
   {
     id: 'optimizer',
-    title: 'Budget optimizer integration',
-    context: 'Defense client · Booz Allen Hamilton',
+    size: 'mid',
+    title: 'Budget optimizer, brought into the UI',
     summary:
-      'Partnered with the data team to bring a multi-fiscal-year budget optimizer into the planning UIs.',
-    points: [
-      'Integrated optimizer results into the planning and reporting experience',
-      'Wired the frontend to Databricks-backed optimization',
-    ],
-    note: 'The optimization algorithm was written by the data team; my part was the UI integration and frontend wiring.',
+      'Brought the data team’s multi-fiscal-year budget optimizer into the planning and reporting screens, and wired the frontend to its Databricks-backed optimization.',
+    note: 'The algorithm is the data team’s; the integration and frontend are mine.',
     tags: ['React', 'TypeScript'],
   },
   {
     id: 'modernization',
-    title: 'API & frontend modernization',
-    context: 'Defense client · Booz Allen Hamilton',
-    summary:
-      'Led the move of core user, profile, planning, and approval flows to a new typed API, and cleaned up the frontend along the way.',
+    size: 'mid',
+    title: 'A typed API and a cleaner frontend',
+    summary: 'Led the move of core user, profile, planning, and approval flows to a new typed API.',
     points: [
-      'Removed legacy search paths and introduced a cleaner module structure',
+      'Removed legacy search paths; cleaner module structure',
       'Added React error boundaries',
-      'Prisma migration cleanup with backwards-compatible upgrade patterns',
+      'Prisma migrations with backwards-compatible upgrades',
       'Consolidated settings endpoints to cut network calls',
     ],
     tags: ['React', 'TypeScript', 'Prisma'],
   },
   {
     id: 'reliability',
-    title: 'Test & release reliability',
-    context: 'Defense client · Booz Allen Hamilton',
+    size: 'mid',
+    title: 'CI that releases can trust',
     summary:
-      'Made CI pass/fail results trustworthy for releases, and owned getting releases out the door.',
-    points: [
-      'Stabilized a Cypress end-to-end suite, including chronic 503 failures',
-      'Owned release packages and in-person deployments',
-    ],
+      'Stabilized the Cypress end-to-end suite, including chronic 503 failures, so a green build means something.',
+    points: ['Owned release packages and in-person deployments'],
     tags: ['Cypress', 'CI/CD'],
   },
   {
     id: 'migration',
-    title: 'Framework migration',
-    context: 'Defense client · Booz Allen Hamilton',
-    summary: 'Ported a production frontend from AureliaJS to React/TypeScript.',
-    points: [
-      'Redux and React context for state management',
-      'Moved search from Solr to Elasticsearch',
-    ],
+    size: 'small',
+    title: 'AureliaJS to React, in production',
+    summary:
+      'Ported a production frontend from AureliaJS to React and TypeScript, with Redux and React context for state, and moved search from Solr to Elasticsearch.',
     tags: ['React', 'TypeScript', 'Redux', 'Elasticsearch'],
   },
   {
     id: 'nrl',
-    title: 'REST APIs & delivery pipelines',
-    context: 'Naval Research Laboratory contractor · Knexus Research',
-    summary: 'Earlier work building backend services and the pipelines that ship them.',
-    points: [
-      'Node/Express/MongoDB REST APIs',
-      'Containerized deployments',
-      'GitLab CI/CD',
-    ],
+    size: 'small',
+    title: 'REST APIs and the pipelines that ship them',
+    context: 'Naval Research Laboratory, via Knexus Research · 2016–2019',
+    summary: 'Node/Express/MongoDB REST APIs, containerized deployments, and GitLab CI/CD.',
     tags: ['Node.js', 'Express', 'MongoDB', 'Docker', 'CI/CD'],
   },
 ]
 
+/** Exactly the 14 skills from the brief, regrouped so no group has a single item. */
 export const skillGroups: { label: string; items: string[] }[] = [
   { label: 'Frontend', items: ['React', 'TypeScript', 'JavaScript', 'Redux'] },
-  { label: 'Backend & data', items: ['Node.js', 'Express', 'MongoDB', 'Prisma'] },
-  { label: 'Delivery', items: ['Docker', 'CI/CD', 'Git'] },
-  { label: 'Testing', items: ['Cypress'] },
-  { label: 'Search', items: ['Elasticsearch'] },
-  { label: 'Languages', items: ['Python'] },
+  { label: 'Backend & data', items: ['Node.js', 'Express', 'MongoDB', 'Prisma', 'Elasticsearch', 'Python'] },
+  { label: 'Testing & delivery', items: ['Cypress', 'Docker', 'CI/CD', 'Git'] },
 ]
 
 export type TimelineItem = {
@@ -128,6 +124,8 @@ export const experience: TimelineItem[] = [
     role: 'Application Developer',
     org: 'IBM',
     dates: 'May 2015 – May 2016',
+    detail:
+      'Built an internal visitation-request web app, migrated a client site to Drupal, and fixed security and 508 accessibility findings.',
   },
 ]
 

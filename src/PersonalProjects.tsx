@@ -1,5 +1,5 @@
 import type { CSSProperties, PointerEvent } from 'react'
-import { personalProjects } from './personal'
+import { personalProjects, sideProjectsIntro } from './personal'
 import './personal.css'
 
 function glow(e: PointerEvent<HTMLElement>) {
@@ -9,17 +9,14 @@ function glow(e: PointerEvent<HTMLElement>) {
   el.style.setProperty('--my', `${e.clientY - r.top}px`)
 }
 
-/** "Things I've built": Lawrence's own projects, shown after the client-work section. */
+/** 02 — Side projects: Lawrence's own products, right after client work. */
 export default function PersonalProjects() {
   return (
-    <section id="built" className="section wrap" aria-labelledby="built-title">
+    <section id="side-projects" className="section wrap" aria-labelledby="side-title">
       <div className="section-head" data-reveal>
-        <p className="kicker">Personal projects</p>
-        <h2 id="built-title">Things I’ve built</h2>
-        <p className="section-sub">
-          Products I’ve built on my own time. Most of the code lives in private repos; live sites are linked where
-          they’re up.
-        </p>
+        <p className="kicker">02 — Side projects</p>
+        <h2 id="side-title">Things I’ve built on my own time</h2>
+        <p className="section-sub">{sideProjectsIntro}</p>
       </div>
       <ul className="cards pp-cards" role="list">
         {personalProjects.map((p, i) => (
@@ -50,24 +47,16 @@ export default function PersonalProjects() {
                 ))}
               </ul>
               <ul className="tags" aria-label="Technologies">
-                {p.stack.map((t) => (
+                {p.stack.slice(0, 5).map((t) => (
                   <li key={t}>{t}</li>
                 ))}
               </ul>
-              {(p.live || p.code) && (
+              {p.live && (
                 <div className="pp-links">
-                  {p.live && (
-                    <a className="pp-link pp-link-live" href={p.live} target="_blank" rel="noopener noreferrer">
-                      Live site <span aria-hidden="true">↗</span>
-                      <span className="sr-only">: {p.name} (opens in a new tab)</span>
-                    </a>
-                  )}
-                  {p.code && (
-                    <a className="pp-link" href={p.code} target="_blank" rel="noopener noreferrer">
-                      Code <span aria-hidden="true">↗</span>
-                      <span className="sr-only">: {p.name} on GitHub (opens in a new tab)</span>
-                    </a>
-                  )}
+                  <a className="pp-link pp-link-live" href={p.live} target="_blank" rel="noopener noreferrer">
+                    Live site <span aria-hidden="true">↗</span>
+                    <span className="sr-only">: {p.name} (opens in a new tab)</span>
+                  </a>
                 </div>
               )}
             </article>
