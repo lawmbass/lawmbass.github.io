@@ -2,13 +2,15 @@ import { useEffect, useState, type CSSProperties, type PointerEvent } from 'reac
 import { education, experience, profile, projects, skillGroups, training, work } from './data'
 import PersonalProjects from './PersonalProjects'
 
+// Skills is one scroll below Experience, so it stays out of the nav to leave room for Resume at 360-390px.
 const nav = [
-  { href: '#work', num: '01', label: 'Work' },
-  { href: '#side-projects', num: '02', label: 'Side projects' },
-  { href: '#experience', num: '03', label: 'Experience' },
-  { href: '#skills', num: '04', label: 'Skills' },
-  { href: '#contact', num: '05', label: 'Contact' },
+  { href: '#work', label: 'Work' },
+  { href: '#side-projects', label: 'Projects' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#contact', label: 'Contact' },
 ]
+
+declare const __BUILD_YEAR__: number
 
 function ResumeLink({ className = 'btn btn-ghost' }: { className?: string }) {
   return (
@@ -33,8 +35,12 @@ function useReveal() {
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
-            e.target.classList.add('is-in')
-            io.unobserve(e.target)
+            const el = e.target as HTMLElement
+            el.classList.add('is-in')
+            io.unobserve(el)
+            // Once the staggered slide is done, drop the reveal classes so hover transitions are instant again.
+            const i = Number(getComputedStyle(el).getPropertyValue('--i')) || 0
+            window.setTimeout(() => el.classList.remove('will-reveal', 'is-in'), 900 + i * 90)
           }
         }
       },
@@ -84,7 +90,7 @@ function CopyEmail() {
 
 export default function App() {
   useReveal()
-  const year = 2026
+  const year = __BUILD_YEAR__
 
   return (
     <>
@@ -108,14 +114,14 @@ export default function App() {
             <ul>
               {nav.map((n) => (
                 <li key={n.href}>
-                  <a href={n.href}>
-                    <span className="nav-num" aria-hidden="true">
-                      {n.num}
-                    </span>
-                    {n.label}
-                  </a>
+                  <a href={n.href}>{n.label}</a>
                 </li>
               ))}
+              <li>
+                <a className="nav-resume" href={profile.resume} type="application/pdf">
+                  Resume
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
@@ -136,10 +142,10 @@ export default function App() {
               <a className="btn btn-primary" href="#work">
                 See my work <span aria-hidden="true">→</span>
               </a>
+              <ResumeLink />
               <a className="btn btn-ghost" href={`mailto:${profile.email}`}>
                 Email me
               </a>
-              <ResumeLink />
             </div>
           </div>
 
@@ -154,7 +160,7 @@ export default function App() {
                 {'  '}name: <span className="s">'{profile.name}'</span>,{'\n'}
                 {'  '}role: <span className="s">'{profile.title}'</span>,{'\n'}
                 {'  '}experience: <span className="s">'11+ years'</span>,{'\n'}
-                {'  '}core: [<span className="s">'React'</span>, <span className="s">'TypeScript'</span>, <span className="s">'Node.js'</span>],{'\n'}
+                {'  '}core: [<span className="s">'React'</span>, <span className="s">'TypeScript'</span>, <span className="s">'Node'</span>],{'\n'}
                 {'  '}focus: [{'\n'}
                 {'    '}<span className="s">'planning & reporting UIs'</span>,{'\n'}
                 {'    '}<span className="s">'API modernization'</span>,{'\n'}
@@ -179,7 +185,7 @@ export default function App() {
                 className={`card work-${p.size}`}
                 onPointerMove={glow}
                 data-reveal
-                style={{ '--i': i % 3 } as CSSProperties}
+                style={{ '--i': i === 0 ? 0 : i - 1 } as CSSProperties}
               >
                 <article aria-labelledby={`${p.id}-t`}>
                   <div className="card-top">
@@ -197,7 +203,6 @@ export default function App() {
                       ))}
                     </ul>
                   )}
-                  {p.note && <p className="card-note">{p.note}</p>}
                   <ul className="tags" aria-label="Technologies">
                     {p.tags.map((t) => (
                       <li key={t}>{t}</li>
@@ -207,6 +212,11 @@ export default function App() {
               </li>
             ))}
           </ol>
+          <ul className="one-liners" role="list" data-reveal>
+            {work.oneLiners.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
         </section>
 
         <PersonalProjects />
@@ -292,9 +302,8 @@ export default function App() {
 
       <footer className="footer wrap">
         <p>
-          © {year} {profile.name}
+          © {year} {profile.name} · Built with React and TypeScript, prerendered for speed.
         </p>
-        <p>Built with React + TypeScript.</p>
       </footer>
     </>
   )

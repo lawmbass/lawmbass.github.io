@@ -4,9 +4,10 @@ export const profile = {
   email: 'lawmbass1@gmail.com',
   eyebrow: 'Open to senior frontend & full-stack roles',
   headline:
-    'I build the React and TypeScript screens behind hard planning and reporting work, plus the APIs and tests that keep them shipping.',
+    'I build the React and TypeScript screens behind complex planning and reporting work, plus the APIs and tests that keep them shipping.',
+  /** The brief's approved summary, word for word. */
   summary:
-    'Senior Software Engineer, 11+ years across React, TypeScript, and Node. I own planning and reporting UIs end to end on a large budget-analysis platform, lead API modernization, and made the Cypress suite reliable enough that releases trust CI.',
+    'Senior Software Engineer with 11+ years building React/TypeScript web applications and Node APIs. Owns complex reporting and planning UIs end-to-end, modernizes APIs, and hardens CI/test pipelines.',
   /** Phone-free PDF of the resume (only the phone number was removed). */
   resume: './Lawrence_Bass_Resume.pdf',
 }
@@ -14,18 +15,21 @@ export const profile = {
 export type Project = {
   id: string
   title: string
-  /** Shown only where it adds information (once for Booz Allen, once for NRL). */
   context?: string
   summary: string
   points?: string[]
   tags: string[]
-  note?: string
-  size: 'featured' | 'mid' | 'small'
+  size: 'featured' | 'mid'
 }
 
 export const work = {
   intro:
-    'Defense work at Booz Allen Hamilton and, before that, the Naval Research Laboratory. Described in general terms; no client names, data, or code.',
+    'Client work for defense customers at Booz Allen Hamilton, described in general terms. No client names, data, or code.',
+  /** Shorter items shown as one-liners under the cards, no tags. */
+  oneLiners: [
+    'Also at Booz Allen: moved a production app from AureliaJS to React, and its search from Solr to Elasticsearch.',
+    'Before that: Node, Express, and MongoDB APIs with GitLab CI/CD pipelines at Knexus Research for the Naval Research Laboratory.',
+  ],
 }
 
 export const projects: Project[] = [
@@ -33,11 +37,11 @@ export const projects: Project[] = [
     id: 'planning-platform',
     size: 'featured',
     title: 'Planning and reporting UIs, end to end',
-    context: 'Booz Allen Hamilton · 2019–present',
+    context: 'Booz Allen',
     summary:
-      'I own the major planning and reporting screens on a React/TypeScript platform for defense readiness and budget analysis.',
+      'I own the planning and reporting screens on a large budget-planning platform, end to end: the React and TypeScript UI, the API calls behind it, and the tests that guard each release.',
     points: [
-      'Shipped a new analysis MVP',
+      'Shipped a new analysis tool as an MVP',
       'Built shared charting: combo charts, multi-series toggles, before/after optimization views',
       'Built screens that hide options that don’t apply to what the user picked',
     ],
@@ -47,18 +51,18 @@ export const projects: Project[] = [
     id: 'optimizer',
     size: 'mid',
     title: 'Budget optimizer, brought into the UI',
+    context: 'Booz Allen',
     summary:
-      'Brought the data team’s multi-fiscal-year budget optimizer into the planning and reporting screens, and wired the frontend to its Databricks-backed optimization.',
-    note: 'The algorithm is the data team’s; the integration and frontend are mine.',
+      'The data team built the optimization algorithm. I brought it into the product: the UI around it, and the frontend wiring to the Databricks-backed optimization service.',
     tags: ['React', 'TypeScript'],
   },
   {
     id: 'modernization',
     size: 'mid',
     title: 'A typed API and a cleaner frontend',
+    context: 'Booz Allen',
     summary: 'Led the move of core user, profile, planning, and approval flows to a new typed API.',
     points: [
-      'Removed legacy search paths; cleaner module structure',
       'Added React error boundaries',
       'Prisma migrations with backwards-compatible upgrades',
       'Consolidated settings endpoints to cut network calls',
@@ -69,26 +73,11 @@ export const projects: Project[] = [
     id: 'reliability',
     size: 'mid',
     title: 'CI that releases can trust',
+    context: 'Booz Allen',
     summary:
       'Stabilized the Cypress end-to-end suite, including chronic 503 failures, so a green build means something.',
     points: ['Owned release packages and in-person deployments'],
     tags: ['Cypress', 'CI/CD'],
-  },
-  {
-    id: 'migration',
-    size: 'small',
-    title: 'AureliaJS to React, in production',
-    summary:
-      'Ported a production frontend from AureliaJS to React and TypeScript, with Redux and React context for state, and moved search from Solr to Elasticsearch.',
-    tags: ['React', 'TypeScript', 'Redux', 'Elasticsearch'],
-  },
-  {
-    id: 'nrl',
-    size: 'small',
-    title: 'REST APIs and the pipelines that ship them',
-    context: 'Naval Research Laboratory, via Knexus Research · 2016–2019',
-    summary: 'Node/Express/MongoDB REST APIs, containerized deployments, and GitLab CI/CD.',
-    tags: ['Node.js', 'Express', 'MongoDB', 'Docker', 'CI/CD'],
   },
 ]
 

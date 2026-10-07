@@ -6,4 +6,6 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   base: './',
   plugins: [react()],
+  // Footer year, fixed at build time so the prerendered HTML and the client always agree.
+  define: { __BUILD_YEAR__: JSON.stringify(new Date().getFullYear()) },
 })

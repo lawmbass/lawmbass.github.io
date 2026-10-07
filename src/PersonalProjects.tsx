@@ -15,7 +15,7 @@ export default function PersonalProjects() {
     <section id="side-projects" className="section wrap" aria-labelledby="side-title">
       <div className="section-head" data-reveal>
         <p className="kicker">02 — Side projects</p>
-        <h2 id="side-title">Things I’ve built on my own time</h2>
+        <h2 id="side-title">Things I’ve built</h2>
         <p className="section-sub">{sideProjectsIntro}</p>
       </div>
       <ul className="cards pp-cards" role="list">
@@ -40,6 +40,7 @@ export default function PersonalProjects() {
                 )}
               </div>
               <h3 id={`pp-${p.id}-t`}>{p.name}</h3>
+              {p.hook && <p className="pp-hook">{p.hook}</p>}
               <p className="card-sum">{p.oneLiner}</p>
               <ul className="card-points">
                 {p.highlights.map((h) => (

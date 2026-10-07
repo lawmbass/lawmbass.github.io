@@ -10,6 +10,7 @@ export type PersonalProject = {
   id: string
   name: string
   kind: string
+  hook?: string
   oneLiner: string
   highlights: string[]
   stack: string[]
@@ -17,20 +18,25 @@ export type PersonalProject = {
   featured?: boolean
 }
 
-export const sideProjectsIntro =
-  'Products I’ve built and shipped outside work, from database to UI. Live links where they’re up.'
+export const sideProjectsIntro = 'Products I build on my own time. Most of the code is private; live sites are linked.'
 
 export const personalProjects: PersonalProject[] = [
   {
     id: 'dispatch',
     name: 'Dispatch',
     kind: 'Full-stack SaaS · trucking',
+    hook: 'Let AI call the broker. You make the call on the load.',
     oneLiner:
-      'A subscription app for independent truck dispatchers. Click Call for Info on a load and an AI voice agent calls the broker, confirms the details, and pushes for a better rate, then saves the transcript and rate on the load.',
+      'A voice agent for small trucking fleets. It phones the freight broker about a load, pushes for a better rate, and brings the answer back. It never books the load; the dispatcher decides.',
+    // Checked against lawmbass/dispatch main (6a0a114) on Oct 7, 2026:
+    // - pages/api/calls/webhook.js verifies every Retell webhook with HMAC-SHA256 (fails closed)
+    // - migrations/005 scopes RLS per dispatcher (applied on production; verify-rls.mjs 44/44)
+    // - Stripe checkout/portal/webhook routes; tests/rateParsing, retellWebhook, rlsMigration
+    // CI in GitHub Actions is currently red on main, so the v2 "tests run in GitHub Actions on every push" claim is cut.
     highlights: [
-      'Voice agent places broker calls; verified webhooks feed a parser that reads spoken rates (“three seventy-five”) and separates the agreed rate from counter-offers',
-      'Row-level security scoped to each dispatcher, with migration tests and a script that probes the policies',
-      'Stripe subscriptions with usage limits, realtime load updates, and route maps; Vitest test suite',
+      'Broker calls run on Retell, and every call webhook is checked with an HMAC signature.',
+      'Each dispatcher sees only their own loads and calls, enforced in the database with row-level security.',
+      'Billing on Stripe; Vitest tests cover the rate parser, webhook signatures, and the row-level security migration.',
     ],
     stack: ['Next.js', 'React', 'Supabase/PostgreSQL', 'Stripe', 'Vitest'],
     live: 'https://dispatch-tawny-tau.vercel.app',
@@ -45,7 +51,6 @@ export const personalProjects: PersonalProject[] = [
     highlights: [
       'Text-to-image generation through a serverless proxy, with prompt templates per style',
       'Typed Convex backend; generated images copied into storage for each shopper’s design history',
-      'Clerk sign-in with admin-only product management; motion built with Framer Motion',
     ],
     stack: ['React', 'TypeScript', 'Vite', 'Convex', 'Clerk'],
     live: 'https://temp-tattoos.vercel.app',
@@ -59,7 +64,6 @@ export const personalProjects: PersonalProject[] = [
     highlights: [
       'Role-based access from one permission map, enforced in Next.js middleware',
       'Booking and contact forms behind reCAPTCHA and per-endpoint rate limits; Content Security Policy and security headers',
-      'Admin tools for bookings, users, invitations, promo codes, and booking analytics',
     ],
     stack: ['Next.js', 'React', 'MongoDB', 'NextAuth', 'Tailwind CSS'],
     live: 'https://drones.sleepysquid.com',

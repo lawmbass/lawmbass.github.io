@@ -26,18 +26,18 @@ body { width: 1200px; height: 630px; background: #07070d; color: #eeeef6; overfl
 .eyebrow { align-self: flex-start; display: inline-flex; align-items: center; gap: 12px; font: 500 22px/1 JB, monospace; color: #7cf3d6;
   padding: 12px 18px; border: 1px solid rgba(124,243,214,0.3); border-radius: 999px; background: rgba(124,243,214,0.07); }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: #7cf3d6; box-shadow: 0 0 0 6px rgba(124,243,214,0.15); }
-h1 { margin-top: 34px; font: 700 112px/0.95 SG, sans-serif; letter-spacing: -0.045em; }
+h1 { margin-top: 44px; font: 700 128px/0.95 SG, sans-serif; letter-spacing: -0.045em; }
 .grad { background: linear-gradient(100deg, #7cf3d6, #8b7bff 50%, #ff6fb5); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.tag { margin-top: 34px; max-width: 900px; font: 600 33px/1.3 SG, sans-serif; letter-spacing: -0.01em; color: #eeeef6; }
+.tag { margin-top: 30px; max-width: 900px; font: 600 48px/1.2 SG, sans-serif; letter-spacing: -0.01em; color: #eeeef6; }
 .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font: 500 22px/1 JB, monospace; color: #b8b8cd; }
 .mark { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font: 700 22px/1 SG, sans-serif; color: #07070d;
   background: linear-gradient(100deg, #7cf3d6, #8b7bff 50%, #ff6fb5); }
 </style></head><body>
 <div class="grid"></div><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
 <div class="wrap">
-  <p class="eyebrow"><span class="dot"></span>Senior Software Engineer</p>
+  <p class="eyebrow"><span class="dot"></span>React · TypeScript · Node</p>
   <h1>Lawrence <span class="grad">M. Bass</span></h1>
-  <p class="tag">I build the React and TypeScript screens behind hard planning and reporting work, plus the APIs and tests that keep them shipping.</p>
+  <p class="tag">Senior Software Engineer</p>
   <div class="foot"><span>lawmbass.github.io</span><span class="mark">LB</span></div>
 </div></body></html>`
 

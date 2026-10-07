@@ -23,21 +23,27 @@ const text = html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, 
 // Hero
 for (const s of [
   'Open to senior frontend &amp; full-stack roles',
-  'I build the React and TypeScript screens behind hard planning and reporting work, plus the APIs and tests that keep them shipping.',
-  'Senior Software Engineer, 11+ years across React, TypeScript, and Node.',
+  'I build the React and TypeScript screens behind complex planning and reporting work, plus the APIs and tests that keep them shipping.',
+  // brief summary, word for word
+  'Senior Software Engineer with 11+ years building React/TypeScript web applications and Node APIs. Owns complex reporting and planning UIs end-to-end, modernizes APIs, and hardens CI/test pipelines.',
   'See my work', 'Resume (PDF)',
 ]) check(`hero copy: ${s.slice(0, 50)}`, html.includes(s))
 // Merged experience
-const bah = (html.match(/Booz Allen Hamilton · 2019–present/g) || []).length
-check('client work: Booz Allen context shown exactly once', bah === 1, `${bah}x`)
+const bah = (html.match(/class="card-ctx">Booz Allen</g) || []).length
+check('client work: card label is "Booz Allen" on the 4 cards', bah === 4, `${bah}x`)
 check('client work: old repeated "Defense client · Booz Allen Hamilton" gone', !html.includes('Defense client · Booz Allen Hamilton'))
-check('client work: "a new analysis MVP" present, "portfolio-analysis" gone', html.includes('Shipped a new analysis MVP') && !/portfolio-analysis/i.test(html))
-check('client work: featured + 3 mid + 2 small cards', (html.match(/work-featured/g) || []).length === 1 && (html.match(/work-mid/g) || []).length === 3 && (html.match(/work-small/g) || []).length === 2)
+check('client work: "new analysis tool as an MVP" present, "portfolio" gone', html.includes('Shipped a new analysis tool as an MVP') && !/portfolio/i.test(text))
+check('client work: featured + 3 cards', (html.match(/card work-featured/g) || []).length === 1 && (html.match(/card work-mid/g) || []).length === 3)
+check('client work: AureliaJS and NRL are one-liners', html.includes('Also at Booz Allen: moved a production app from AureliaJS to React, and its search from Solr to Elasticsearch.') && html.includes('Before that: Node, Express, and MongoDB APIs with GitLab CI/CD pipelines at Knexus Research for the Naval Research Laboratory.'))
+const bullets = [...html.matchAll(/<ul class="card-points">([\s\S]*?)<\/ul>/g)].map((m) => (m[1].match(/<li/g) || []).length)
+check('every card has at most 3 bullets', bullets.every((n) => n <= 3), bullets.join(','))
 // Section order and numbering
 const kickers = [...html.matchAll(/class="kicker">([^<]+)</g)].map((m) => m[1])
 check('sections numbered 01-05 in order', JSON.stringify(kickers) === JSON.stringify(['01 — Work', '02 — Side projects', '03 — Experience', '04 — Skills', '05 — Contact']), kickers.join(' | '))
 const navLabels = [...html.matchAll(/<nav[\s\S]*?<\/nav>/g)][0]?.[0].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
-check('nav numbering and labels', navLabels === '01 Work 02 Side projects 03 Experience 04 Skills 05 Contact', navLabels)
+check('nav labels (v2): Work Projects Experience Contact Resume', navLabels === 'Lawrence M. Bass, back to top Work Projects Experience Contact Resume' || navLabels === 'Work Projects Experience Contact Resume', navLabels)
+check('Dispatch hook line', html.includes('Let AI call the broker. You make the call on the load.'))
+check('footer copy', /© (<!-- -->)?\d{4}(<!-- -->)? (<!-- -->)?Lawrence M. Bass(<!-- -->)? · Built with React and TypeScript, prerendered for speed\./.test(html))
 // Side projects
 const pp = [...html.matchAll(/id="pp-([a-z0-9-]+)-t"/g)].map((m) => m[1])
 check('side projects in order: Dispatch, Temp Tattoo Studio, SleepySquid', JSON.stringify(pp) === JSON.stringify(['dispatch', 'temp-tattoos', 'sleepysquid-drones']), pp.join(', '))
@@ -70,7 +76,7 @@ const og = await fetch(new URL(`og-image.png?${cb}`, BASE))
 const ogBuf = Buffer.from(await og.arrayBuffer())
 check('og-image.png: 200 image/png 1200x630', og.status === 200 && og.headers.get('content-type')?.startsWith('image/png') && ogBuf.readUInt32BE(16) === 1200 && ogBuf.readUInt32BE(20) === 630, `${og.status} ${og.headers.get('content-type')} ${ogBuf.readUInt32BE(16)}x${ogBuf.readUInt32BE(20)}`)
 const resumeHrefs = [...html.matchAll(/<a[^>]*href="([^"]+)"[^>]*>Resume \(PDF\)<\/a>/g)].map((m) => m[1])
-check('Resume (PDF) linked in hero and contact', resumeHrefs.length === 2, resumeHrefs.join(', '))
+check('Resume (PDF) linked in hero and contact (+ Resume in nav)', resumeHrefs.length === 2 && html.includes('class="nav-resume" href="./Lawrence_Bass_Resume.pdf"'), resumeHrefs.join(', '))
 const pdf = await fetch(new URL(`${resumeHrefs[0]}?${cb}`, BASE))
 const pdfBuf = Buffer.from(await pdf.arrayBuffer())
 check('resume PDF: 200 application/pdf', pdf.status === 200 && pdf.headers.get('content-type')?.includes('application/pdf') && pdfBuf.subarray(0, 5).toString() === '%PDF-', `${pdf.status} ${pdf.headers.get('content-type')} ${pdfBuf.length} bytes`)
@@ -126,10 +132,23 @@ async function run(name, opts) {
   const navOk = await page.evaluate(() => { const n = document.querySelector('.topbar nav'); const last = n.querySelector('li:last-child a'); n.scrollLeft = 9999; const r = last.getBoundingClientRect(); return r.right <= window.innerWidth + 1 })
   check(`${name}: all nav items reachable`, navOk)
   check(`${name}: no JS errors`, errors.length === 0, errors.join(' | '))
+  const m = await page.evaluate(() => {
+    const h = (sel) => [...document.querySelectorAll(sel)].map((e) => { const r = e.getBoundingClientRect(); return [Math.round(r.width * 10) / 10, Math.round(r.height * 10) / 10] })
+    const bg = getComputedStyle(document.querySelector('.topbar')).backgroundColor
+    const code = getComputedStyle(document.querySelector('.code-card')).display
+    return { nav: h('.topbar nav a'), mark: h('.mark')[0], live: h('.pp-link'), email: h('.email-link'), bg, code }
+  })
+  const minH = (arr) => Math.min(...arr.map((x) => x[1]))
+  check(`${name}: tap targets >= 44px (nav, logo, Live site, email link)`, minH(m.nav) >= 44 && m.mark[0] >= 44 && m.mark[1] >= 44 && minH(m.live) >= 44 && minH(m.email) >= 44,
+    `nav min h=${minH(m.nav)} logo=${m.mark.join('x')} live min h=${minH(m.live)} email h=${minH(m.email)}`)
+  const alpha = Number((m.bg.match(/rgba?\(([^)]+)\)/)?.[1].split(',')[3] ?? '1'))
+  check(`${name}: sticky nav background >= 90% opaque`, alpha >= 0.9, m.bg)
+  if (opts.viewport.width < 720) check(`${name}: code card hidden on phones`, m.code === 'none', m.code)
   await ctx.close()
 }
 await run('desktop-1280', { viewport: { width: 1280, height: 800 } })
 await run('mobile-390', { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true })
+await run('mobile-360', { viewport: { width: 360, height: 780 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true })
 await run('reduced-motion-390', { viewport: { width: 390, height: 844 }, isMobile: true, reducedMotion: 'reduce' })
 await browser.close()
 const failed = results.filter((r) => !r.ok)

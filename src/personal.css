@@ -7,6 +7,7 @@
     linear-gradient(180deg, #11111d, #0b0b14);
 }
 .pp-featured h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.pp-hook { margin-top: 0.5rem; font: 600 clamp(1.05rem, 1.8vw, 1.25rem)/1.35 var(--display); color: var(--a1); }
 .pp-featured .card-sum { max-width: 52rem; font-size: 1.04rem; }
 .pp-featured .card-points { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem 1.5rem; }
 
@@ -23,8 +24,8 @@
 
 .pp-links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.2rem; }
 .pp-link {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  padding: 0.6rem 1rem; border-radius: 999px; font: 600 0.9rem/1 var(--body); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px;
+  padding: 0 1.1rem; border-radius: 999px; font: 600 0.9rem/1 var(--body); text-decoration: none;
   color: var(--text); background: var(--surface); border: 1px solid var(--line-2);
   transition: transform 0.25s var(--ease), background 0.25s, border-color 0.25s, box-shadow 0.25s;
 }
