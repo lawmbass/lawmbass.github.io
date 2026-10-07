@@ -3,7 +3,7 @@ const require = createRequire(import.meta.url)
 let pw
 try { pw = require('playwright') } catch { try { pw = require('playwright-core') } catch { pw = require(process.env.PW_PATH || '/tmp/pw/node_modules/playwright-core') } }
 const browser = await pw.chromium.launch({ channel: 'chrome' }).catch(() => pw.chromium.launch())
-const out = '/workspace/portfolio-site/shots'
+const out = process.env.OUT || 'shots'
 const errors = []
 async function shoot(name, opts, reduced = false) {
   const ctx = await browser.newContext({ ...opts, reducedMotion: reduced ? 'reduce' : 'no-preference' })

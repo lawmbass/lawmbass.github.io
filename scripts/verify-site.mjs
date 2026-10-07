@@ -7,11 +7,11 @@ try { pw = require('playwright') } catch { try { pw = require('playwright-core')
 
 const BASE = process.env.BASE || 'http://localhost:4173/'
 const SHOTS = process.env.SHOTS || 'local-v2'
-const out = '/workspace/portfolio-site/shots'
+const out = process.env.OUT || 'shots'
 const cb = `cb=${Date.now()}`
 const results = []
 const check = (name, ok, detail = '') => { results.push({ name, ok: !!ok, detail }); console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? '  — ' + detail : ''}`) }
-// US-style phone numbers: (301) 751-6651, 301-751-6651, 301.751.6651, +1 301 751 6651
+// US-style phone numbers in common formats (generic pattern; no real numbers in this file)
 const PHONE = /(?:\+?1[\s.-]?)?\(?\b\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}\b/g
 const BRIEF_SKILLS = ['React', 'TypeScript', 'JavaScript', 'Redux', 'Node.js', 'Express', 'MongoDB', 'Prisma', 'Docker', 'CI/CD', 'Cypress', 'Elasticsearch', 'Python', 'Git']
 
@@ -88,7 +88,8 @@ const bundles = [...html.matchAll(/(?:src|href)="(\.\/assets\/[^"]+\.(?:js|css))
 let bundleHits = []
 for (const b of bundles) { const t = await (await fetch(new URL(`${b}?${cb}`, BASE))).text(); bundleHits.push(...(t.match(PHONE) || []).map((h) => `${b}:${h}`)) }
 check(`no phone number in JS/CSS bundles (${bundles.length} files)`, bundleHits.length === 0, bundleHits.join(','))
-check('no "751" anywhere in HTML', !html.includes('751'))
+// Optional private check: set PRIVATE_DIGITS (never committed) to a digit string that must not appear in the HTML
+if (process.env.PRIVATE_DIGITS) check('no private digits in HTML', !html.includes(process.env.PRIVATE_DIGITS))
 
 // Browser checks
 const browser = await pw.chromium.launch({ channel: 'chrome' }).catch(() => pw.chromium.launch())
