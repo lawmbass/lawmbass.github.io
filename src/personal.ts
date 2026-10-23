@@ -23,7 +23,7 @@ export const sideProjectsIntro = 'Products I build on my own time. Most of the c
 export const personalProjects: PersonalProject[] = [
   {
     id: 'dispatch',
-    name: 'Dispatch',
+    name: 'Dispatch by SleepySquid',
     kind: 'Full-stack SaaS · trucking',
     hook: 'Let AI call the broker. You make the call on the load.',
     oneLiner:
@@ -37,9 +37,10 @@ export const personalProjects: PersonalProject[] = [
       'Broker calls run on Retell, and every call webhook is checked with an HMAC signature.',
       'Each dispatcher sees only their own loads and calls, enforced in the database with row-level security.',
       'Billing on Stripe; Vitest tests cover the rate parser, webhook signatures, and the row-level security migration.',
+      'Live map board for dispatchers, invite-only driver accounts, and load texts to drivers over Twilio.',
     ],
     stack: ['Next.js', 'React', 'Supabase/PostgreSQL', 'Stripe', 'Vitest'],
-    live: 'https://dispatch-tawny-tau.vercel.app',
+    live: 'https://dispatch.sleepysquid.com',
     featured: true,
   },
   {
@@ -56,16 +57,43 @@ export const personalProjects: PersonalProject[] = [
     live: 'https://temp-tattoos.vercel.app',
   },
   {
+    id: 'sleepysquid-ai',
+    name: 'SleepySquid AI',
+    kind: 'Service site + client portal · small business',
+    oneLiner:
+      'Done-for-you office automation for trades, real estate agents, and property managers in DC, Maryland, and Virginia, with a client portal that reports what the automations did.',
+    highlights: [
+      'Automation bots post run reports to a single ingest endpoint; client keys are stored only as SHA-256 hashes.',
+      'Clients sign in to one shared portal at sleepysquid.com/dashboard to see reports and export them as PDF.',
+    ],
+    stack: ['Next.js', 'React', 'Supabase/PostgreSQL', 'Resend'],
+    live: 'https://ai.sleepysquid.com',
+  },
+  {
     id: 'sleepysquid-drones',
     name: 'SleepySquid Drones',
     kind: 'Full-stack web app · small business',
     oneLiner:
-      'The public site and booking system for a drone services business, with separate dashboards for admins, clients, and pilots.',
+      'The public site and booking system for an FAA Part 107 drone business, with an admin dashboard for bookings, airspace checks, and incoming mission listings.',
     highlights: [
-      'Role-based access from one permission map, enforced in Next.js middleware',
-      'Booking and contact forms behind reCAPTCHA and per-endpoint rate limits; Content Security Policy and security headers',
+      'Booking form and admin tools use Google Places address search; admins check airspace for a job location.',
+      'A companion Node bot reads DroneBase/Zeitview mission emails, applies admin-set rules, and logs every listing to the dashboard.',
+      'Role-based access from one permission map in Next.js middleware; reCAPTCHA, rate limits, and a Content Security Policy.',
     ],
-    stack: ['Next.js', 'React', 'MongoDB', 'NextAuth', 'Tailwind CSS'],
+    stack: ['Next.js', 'Supabase/PostgreSQL', 'NextAuth', 'Google Maps Platform', 'Puppeteer'],
     live: 'https://drones.sleepysquid.com',
+  },
+  {
+    id: 'sleepysquid',
+    name: 'SleepySquid',
+    kind: 'Company site · shared sign-in',
+    oneLiner:
+      'The hub for SleepySquid’s software, drone, and AI automation services, with one sign-in and one client portal across every SleepySquid site.',
+    highlights: [
+      'Single sign-on across subdomains with a shared NextAuth session (Google or emailed sign-in link).',
+      'Contact form delivers through Resend from a dedicated sending domain.',
+    ],
+    stack: ['Next.js', 'React', 'NextAuth', 'Resend', 'Vercel'],
+    live: 'https://sleepysquid.com',
   },
 ]
