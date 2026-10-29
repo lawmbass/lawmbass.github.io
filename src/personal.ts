@@ -56,7 +56,7 @@ export const personalProjects: PersonalProject[] = [
     // - app/admin/*, lib/admin/*: magic-link sign-in, admin/viewer roles; lib/crypto.ts: AES-256-GCM application fields
     // Not live on pacingforthecure.org yet (DNS not moved), so the link is the Vercel deployment.
     highlights: [
-      'Donations to three funds through Stripe Checkout (test mode until launch), with a searchable fund picker.',
+      'Donations to three funds through Stripe Checkout, with a searchable fund picker.',
       'Sponsorship packages with emailed receipts that state the fair market value of the benefits and the tax-deductible amount.',
       'Admin dashboard with magic-link sign-in and admin/viewer roles for gifts, sponsors, and aid applications; sensitive application fields are encrypted with AES-256-GCM.',
     ],
