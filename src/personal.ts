@@ -44,6 +44,26 @@ export const personalProjects: PersonalProject[] = [
     featured: true,
   },
   {
+    id: 'pacing-for-the-cure',
+    name: 'Pacing for the Cure',
+    kind: 'Nonprofit site rebuild · fundraising',
+    oneLiner:
+      'A rebuild of the website for Pacing for the Cure, a harness-racing charity that helps people living with multiple sclerosis pay for scooters, wheelchairs, and treatment copays. The old WordPress site moved to Next.js with its posts and URLs kept.',
+    // Checked against lawmbass/pacing-for-the-cure main (3d5421b) on Oct 29, 2026:
+    // - content/funds.ts: three active funds; lib/donate/designation-search.ts + components/form/DesignationCombobox.tsx
+    // - app/api/donate + lib/donate/checkout.ts: Stripe Checkout, test mode unless DONATIONS_LIVE (unset)
+    // - lib/donate/receipt.ts + content/sponsorships.ts: fair market value and deductible amount; receipts via Resend
+    // - app/admin/*, lib/admin/*: magic-link sign-in, admin/viewer roles; lib/crypto.ts: AES-256-GCM application fields
+    // Not live on pacingforthecure.org yet (DNS not moved), so the link is the Vercel deployment.
+    highlights: [
+      'Donations to three funds through Stripe Checkout (test mode until launch), with a searchable fund picker.',
+      'Sponsorship packages with emailed receipts that state the fair market value of the benefits and the tax-deductible amount.',
+      'Admin dashboard with magic-link sign-in and admin/viewer roles for gifts, sponsors, and aid applications; sensitive application fields are encrypted with AES-256-GCM.',
+    ],
+    stack: ['Next.js', 'React', 'TypeScript', 'Supabase/PostgreSQL', 'Stripe'],
+    live: 'https://pacing-for-the-cure.vercel.app',
+  },
+  {
     id: 'temp-tattoos',
     name: 'Temp Tattoo Studio',
     kind: 'AI web app · e-commerce',
