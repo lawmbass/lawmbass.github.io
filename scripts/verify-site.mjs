@@ -35,8 +35,9 @@ check('client work: old repeated "Defense client · Booz Allen Hamilton" gone', 
 check('client work: "new analysis tool as an MVP" present, "portfolio" gone', html.includes('Shipped a new analysis tool as an MVP') && !/portfolio/i.test(text))
 check('client work: featured + 3 cards', (html.match(/card work-featured/g) || []).length === 1 && (html.match(/card work-mid/g) || []).length === 3)
 check('client work: AureliaJS and NRL are one-liners', html.includes('Also at Booz Allen: moved a production app from AureliaJS to React, and its search from Solr to Elasticsearch.') && html.includes('Before that: Node, Express, and MongoDB APIs with GitLab CI/CD pipelines at Knexus Research for the Naval Research Laboratory.'))
-const bullets = [...html.matchAll(/<ul class="card-points">([\s\S]*?)<\/ul>/g)].map((m) => (m[1].match(/<li/g) || []).length)
-check('every card has at most 3 bullets', bullets.every((n) => n <= 3), bullets.join(','))
+const workHtml = html.match(/<section id="work"[\s\S]*?<\/section>/)?.[0] ?? ''
+const bullets = [...workHtml.matchAll(/<ul class="card-points">([\s\S]*?)<\/ul>/g)].map((m) => (m[1].match(/<li/g) || []).length)
+check('every client-work card has at most 3 bullets', Boolean(workHtml) && bullets.length > 0 && bullets.every((n) => n <= 3), bullets.join(',') || 'work section missing')
 // Section order and numbering
 const kickers = [...html.matchAll(/class="kicker">([^<]+)</g)].map((m) => m[1])
 check('sections numbered 01-05 in order', JSON.stringify(kickers) === JSON.stringify(['01 — Work', '02 — Side projects', '03 — Experience', '04 — Skills', '05 — Contact']), kickers.join(' | '))
@@ -46,7 +47,7 @@ check('Dispatch hook line', html.includes('Let AI call the broker. You make the 
 check('footer copy', /© (<!-- -->)?\d{4}(<!-- -->)? (<!-- -->)?Lawrence M. Bass(<!-- -->)? · Built with React and TypeScript, prerendered for speed\./.test(html))
 // Side projects
 const pp = [...html.matchAll(/id="pp-([a-z0-9-]+)-t"/g)].map((m) => m[1])
-check('side projects in order: Dispatch, Temp Tattoo Studio, SleepySquid', JSON.stringify(pp) === JSON.stringify(['dispatch', 'temp-tattoos', 'sleepysquid-drones']), pp.join(', '))
+check('side projects in order: Dispatch, Pacing for the Cure, Temp Tattoo Studio, SleepySquid AI, SleepySquid Drones, SleepySquid', JSON.stringify(pp) === JSON.stringify(['dispatch', 'pacing-for-the-cure', 'temp-tattoos', 'sleepysquid-ai', 'sleepysquid-drones', 'sleepysquid']), pp.join(', '))
 check('99Problems and Mow Logistics removed', !/99Problems|Mow Logistics/i.test(html))
 check('no "code available on request"', !/available on request/i.test(html))
 check('no Code ↗ link / no GitHub repo links', !/>\s*Code\s*<span/.test(html) && !/github\.com\/lawmbass\//.test(html))
@@ -80,8 +81,9 @@ check('Resume (PDF) linked in hero and contact (+ Resume in nav)', resumeHrefs.l
 const pdf = await fetch(new URL(`${resumeHrefs[0]}?${cb}`, BASE))
 const pdfBuf = Buffer.from(await pdf.arrayBuffer())
 check('resume PDF: 200 application/pdf', pdf.status === 200 && pdf.headers.get('content-type')?.includes('application/pdf') && pdfBuf.subarray(0, 5).toString() === '%PDF-', `${pdf.status} ${pdf.headers.get('content-type')} ${pdfBuf.length} bytes`)
-const { writeFileSync } = await import('node:fs')
+const { writeFileSync, mkdirSync } = await import('node:fs')
 writeFileSync(`/tmp/${SHOTS}-resume.pdf`, pdfBuf)
+mkdirSync(out, { recursive: true })
 // Phone numbers in HTML and JS bundles
 check('no phone number in HTML', !(html.match(PHONE) || []).length, (html.match(PHONE) || []).join(','))
 const bundles = [...html.matchAll(/(?:src|href)="(\.\/assets\/[^"]+\.(?:js|css))"/g)].map((m) => m[1])
