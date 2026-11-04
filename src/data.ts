@@ -129,4 +129,4 @@ export const education = {
   dates: 'May 2015',
 }
 
-export const training = ['Palantir Foundry', 'Kubernetes', 'C3.ai']
+export const training = ['Palantir Foundry', 'Kubernetes']
