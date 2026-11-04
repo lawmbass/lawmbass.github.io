@@ -12,6 +12,11 @@ export const profile = {
   resume: './Lawrence_Bass_Resume.pdf',
 }
 
+export const socialLinks = [
+  { id: 'github', label: 'GitHub', href: 'https://github.com/lawmbass' },
+  { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/lawrencebass' },
+] as const
+
 export type Project = {
   id: string
   title: string
