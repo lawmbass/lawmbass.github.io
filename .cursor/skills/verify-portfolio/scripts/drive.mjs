@@ -42,7 +42,7 @@ const SKILL_GROUPS = [
   ['Testing & delivery', ['Cypress', 'Docker', 'CI/CD', 'Git']],
 ]
 const LIVE = [
-  ['dispatch', 'Dispatch by SleepySquid', 'https://dispatch.sleepysquid.com'],
+  ['rampnest', 'Rampnest', 'https://rampnest.com'],
   ['pacing-for-the-cure', 'Pacing for the Cure', 'https://pacing-for-the-cure.vercel.app'],
   ['temp-tattoos', 'Temp Tattoo Studio', 'https://temp-tattoos.vercel.app'],
   ['sleepysquid-ai', 'SleepySquid AI', 'https://ai.sleepysquid.com'],
@@ -386,9 +386,9 @@ async function sideOrder({ page, base }) {
   const expected = LIVE.map(([id]) => `pp-${id}-t`)
   check('side projects stay in source order', JSON.stringify(ids) === JSON.stringify(expected), ids.join(','))
   for (const [, name] of LIVE) check(`heading ${name}`, await page.locator('#side-projects').getByRole('heading', { name, exact: true }).count() === 1)
-  check('Dispatch hook', (await page.locator('#side-projects').innerText()).includes('Let AI call the broker. You make the call on the load.'))
-  const dispatchBullets = await page.locator('article', { has: page.locator('#pp-dispatch-t') }).locator('.card-points li').count()
-  check('Dispatch shows its four highlights', dispatchBullets === 4, String(dispatchBullets))
+  check('Rampnest hook', (await page.locator('#side-projects').innerText()).includes('Know what every load is worth before you take it.'))
+  const rampnestBullets = await page.locator('article', { has: page.locator('#pp-rampnest-t') }).locator('.card-points li').count()
+  check('Rampnest shows its four highlights', rampnestBullets === 4, String(rampnestBullets))
 }
 
 async function sideLinks({ page, base }) {

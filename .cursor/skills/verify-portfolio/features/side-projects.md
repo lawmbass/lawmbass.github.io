@@ -5,7 +5,7 @@ Side projects is the section titled Things I’ve built. Six products are listed
 ## Sub-features
 
 - `open` reaches the section from `Projects` and shows the `02 — Side projects` kicker.
-- `order` lists Dispatch by SleepySquid, Pacing for the Cure, Temp Tattoo Studio, SleepySquid AI, SleepySquid Drones, and SleepySquid, and shows the Dispatch hook.
+- `order` lists Rampnest, Pacing for the Cure, Temp Tattoo Studio, SleepySquid AI, SleepySquid Drones, and SleepySquid, and shows the Rampnest hook.
 - `live-links` checks each Live site href, new-tab behavior, and accessible name, and leaves the portfolio.
 
 ## How to get to it (user POV)
@@ -22,8 +22,8 @@ Preconditions:
 - The six hrefs below are the ones in the shipped page. A new product is a map change, proved by reading the card, not by deleting an assertion.
 
 - **Open.** Choose `Projects`. Run `.cursor/skills/verify-portfolio/scripts/drive.mjs side-projects --step open`. The hash is `#side-projects` and the heading is `Things I’ve built` (U+2019). The intro says the code is mostly private and the live sites are linked.
-- **Order.** Read the six headings top to bottom. Run `.cursor/skills/verify-portfolio/scripts/drive.mjs side-projects --step order`. The ids are `pp-dispatch-t`, `pp-pacing-for-the-cure-t`, `pp-temp-tattoos-t`, `pp-sleepysquid-ai-t`, `pp-sleepysquid-drones-t`, `pp-sleepysquid-t`. Dispatch shows the hook `Let AI call the broker. You make the call on the load.` and four highlights.
-- **Live links.** Read each Live site control without activating it. Run `.cursor/skills/verify-portfolio/scripts/drive.mjs side-projects --step live-links`. The hrefs are `https://dispatch.sleepysquid.com`, `https://pacing-for-the-cure.vercel.app`, `https://temp-tattoos.vercel.app`, `https://ai.sleepysquid.com`, `https://drones.sleepysquid.com`, and `https://sleepysquid.com`. Each has `target="_blank"` and `rel` containing `noopener` and `noreferrer`. Each accessible name includes the product name. No link is named `Code`, no href contains `github.com/lawmbass`, and the drive records no request to another http(s) origin.
+- **Order.** Read the six headings top to bottom. Run `.cursor/skills/verify-portfolio/scripts/drive.mjs side-projects --step order`. The ids are `pp-rampnest-t`, `pp-pacing-for-the-cure-t`, `pp-temp-tattoos-t`, `pp-sleepysquid-ai-t`, `pp-sleepysquid-drones-t`, `pp-sleepysquid-t`. Rampnest shows the hook `Know what every load is worth before you take it.` and four highlights.
+- **Live links.** Read each Live site control without activating it. Run `.cursor/skills/verify-portfolio/scripts/drive.mjs side-projects --step live-links`. The hrefs are `https://rampnest.com`, `https://pacing-for-the-cure.vercel.app`, `https://temp-tattoos.vercel.app`, `https://ai.sleepysquid.com`, `https://drones.sleepysquid.com`, and `https://sleepysquid.com`. Each has `target="_blank"` and `rel` containing `noopener` and `noreferrer`. Each accessible name includes the product name. No link is named `Code`, no href contains `github.com/lawmbass`, and the drive records no request to another http(s) origin.
 
 The whole section is `.cursor/skills/verify-portfolio/scripts/drive.mjs side-projects`.
 
