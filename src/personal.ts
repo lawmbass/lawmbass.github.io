@@ -22,25 +22,25 @@ export const sideProjectsIntro = 'Products I build on my own time. Most of the c
 
 export const personalProjects: PersonalProject[] = [
   {
-    id: 'dispatch',
-    name: 'Dispatch by SleepySquid',
-    kind: 'Full-stack SaaS · trucking',
-    hook: 'Let AI call the broker. You make the call on the load.',
+    id: 'rampnest',
+    name: 'Rampnest',
+    kind: 'Full-stack SaaS · car hauling',
+    hook: 'Know what every load is worth before you take it.',
     oneLiner:
-      'A voice agent for small trucking fleets. It phones the freight broker about a load, pushes for a better rate, and brings the answer back. It never books the load; the dispatcher decides.',
-    // Checked against lawmbass/dispatch main (6a0a114) on Oct 7, 2026:
-    // - pages/api/calls/webhook.js verifies every Retell webhook with HMAC-SHA256 (fails closed)
-    // - migrations/005 scopes RLS per dispatcher (applied on production; verify-rls.mjs 44/44)
-    // - Stripe checkout/portal/webhook routes; tests/rateParsing, retellWebhook, rlsMigration
-    // CI in GitHub Actions is currently red on main, so the v2 "tests run in GitHub Actions on every push" claim is cut.
+      'A dispatch and load tool for car haulers. They find and manage loads: paste a load, see the profit on each truck, and keep the trip, driver pay, and who still owes them.',
+    // Checked against lawmbass/rampnest main (2f2498c) on Nov 13, 2026:
+    // - README and pages/index.js: paste a load, profit per truck, take/counter/pass, trip profit, driver pay, who owes them
+    // - https://rampnest.com returned HTTP 200. The app does not search a load board or book a car.
+    // - migrations/029 drops the freight-board and AI-call tables.
+    // - migrations/033 drops inspections and shipper texts. Stripe plans live in lib/plans.ts; Mapbox draws the trip.
     highlights: [
-      'Broker calls run on Retell, and every call webhook is checked with an HMAC signature.',
-      'Each dispatcher sees only their own loads and calls, enforced in the database with row-level security.',
-      'Billing on Stripe; Vitest tests cover the rate parser, webhook signatures, and the row-level security migration.',
-      'Live map board for dispatchers, invite-only driver accounts, and load texts to drivers over Twilio.',
+      'A hauler pastes a load and sees the profit on each truck, a take, counter, or pass verdict, and the price to counter at.',
+      'It keeps count of what each trip made, what each driver is owed, and who still owes them.',
+      'Billing on Stripe. Mapbox supplies the road miles, the stop order, and the trip map.',
+      'Invite-only driver accounts. Each dispatcher sees only their own loads, enforced with row-level security.',
     ],
     stack: ['Next.js', 'React', 'Supabase/PostgreSQL', 'Stripe', 'Vitest'],
-    live: 'https://dispatch.sleepysquid.com',
+    live: 'https://rampnest.com',
     featured: true,
   },
   {

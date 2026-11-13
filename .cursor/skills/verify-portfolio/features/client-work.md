@@ -30,6 +30,6 @@ The whole section is `.cursor/skills/verify-portfolio/scripts/drive.mjs client-w
 ## Gotchas
 
 - The em dash in `01 — Work` is U+2014. The step compares the DOM text, not the uppercased rendering from `text-transform`.
-- Dispatch, in Side projects, has four highlights. The three-bullet cap is the client-work cards. `scripts/verify-site.mjs` applies that cap to `<section id="work">` only.
+- Rampnest, in Side projects, has four highlights. The three-bullet cap is the client-work cards. `scripts/verify-site.mjs` applies that cap to `<section id="work">` only.
 - The word `portfolio` is banned for the whole document by `verify-site.mjs`, not by this feature's steps. Run that script when the copy contract is in question.
 - Card glow follows the pointer. It is decorative. The proof does not require a hover coordinate.
