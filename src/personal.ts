@@ -65,16 +65,19 @@ export const personalProjects: PersonalProject[] = [
   },
   {
     id: 'temp-tattoos',
-    name: 'Temp Tattoo Studio',
-    kind: 'AI web app · e-commerce',
+    name: 'InkedSquid',
+    kind: 'Custom temporary tattoo shop',
     oneLiner:
-      'A storefront where shoppers describe a temporary tattoo, get an AI-generated design, save favorites, and add it to the cart.',
+      'Custom temporary tattoos for bachelorette parties, weddings, and events.',
+    // https://inkedsquid.com returned HTTP 200 on Nov 15, 2026.
+    // The AI studio is owner-only. Stripe checkout is not live yet, so this card does not describe a cart.
     highlights: [
-      'Text-to-image generation through a serverless proxy, with prompt templates per style',
-      'Typed Convex backend; generated images copied into storage for each shopper’s design history',
+      'A private AI design and print studio, owner-only with Google sign-in, checks a server-side allow list before any image generation. It creates designs and exports print-ready 300 DPI PNG and PDF sheets at 2 to 4 inch sizes.',
+      'Migrated from Convex and Clerk to Supabase (Postgres with row-level security, Auth, and Storage), with the existing designs imported.',
+      'Stripe checkout is in progress.',
     ],
-    stack: ['React', 'TypeScript', 'Vite', 'Convex', 'Clerk'],
-    live: 'https://temp-tattoos.vercel.app',
+    stack: ['React', 'TypeScript', 'Vite', 'Supabase/PostgreSQL', 'Vercel Functions'],
+    live: 'https://inkedsquid.com',
   },
   {
     id: 'sleepysquid-ai',
