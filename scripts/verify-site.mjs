@@ -47,7 +47,7 @@ check('Rampnest hook line', html.includes('Know what every load is worth before 
 check('footer copy', /© (<!-- -->)?\d{4}(<!-- -->)? (<!-- -->)?Lawrence M. Bass(<!-- -->)? · Built with React and TypeScript, prerendered for speed\./.test(html))
 // Side projects
 const pp = [...html.matchAll(/id="pp-([a-z0-9-]+)-t"/g)].map((m) => m[1])
-check('side projects in order: Rampnest, Pacing for the Cure, Temp Tattoo Studio, SleepySquid AI, SleepySquid Drones, SleepySquid', JSON.stringify(pp) === JSON.stringify(['rampnest', 'pacing-for-the-cure', 'temp-tattoos', 'sleepysquid-ai', 'sleepysquid-drones', 'sleepysquid']), pp.join(', '))
+check('side projects in order: Rampnest, Pacing for the Cure, InkedSquid, SleepySquid AI, SleepySquid Drones, SleepySquid', JSON.stringify(pp) === JSON.stringify(['rampnest', 'pacing-for-the-cure', 'temp-tattoos', 'sleepysquid-ai', 'sleepysquid-drones', 'sleepysquid']), pp.join(', '))
 check('99Problems and Mow Logistics removed', !/99Problems|Mow Logistics/i.test(html))
 check('no "code available on request"', !/available on request/i.test(html))
 check('no Code ↗ link / no GitHub repo links', !/>\s*Code\s*<span/.test(html) && !/github\.com\/lawmbass\//.test(html))

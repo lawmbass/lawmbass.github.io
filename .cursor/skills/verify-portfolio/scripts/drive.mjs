@@ -44,7 +44,7 @@ const SKILL_GROUPS = [
 const LIVE = [
   ['rampnest', 'Rampnest', 'https://rampnest.com'],
   ['pacing-for-the-cure', 'Pacing for the Cure', 'https://pacing-for-the-cure.vercel.app'],
-  ['temp-tattoos', 'Temp Tattoo Studio', 'https://temp-tattoos.vercel.app'],
+  ['temp-tattoos', 'InkedSquid', 'https://inkedsquid.com'],
   ['sleepysquid-ai', 'SleepySquid AI', 'https://ai.sleepysquid.com'],
   ['sleepysquid-drones', 'SleepySquid Drones', 'https://drones.sleepysquid.com'],
   ['sleepysquid', 'SleepySquid', 'https://sleepysquid.com'],
